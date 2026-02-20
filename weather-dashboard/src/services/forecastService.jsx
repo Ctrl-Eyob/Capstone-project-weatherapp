@@ -51,7 +51,7 @@ export const getMonthlyForecast = async (lat, lon) => {
         latitude: lat,
         longitude: lon,
         daily: "temperature_2m_max,temperature_2m_min",
-        forecast_days: 30,
+        forecast_days: 15,
         timezone: "auto",
       },
     }
