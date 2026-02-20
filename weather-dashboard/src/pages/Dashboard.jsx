@@ -11,26 +11,23 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchWeather = async (targetCity) => {
-    try {
-      setLoading(true);
-      setError("");
+ const fetchWeather = async (targetCity) => {
+  try {
+    setLoading(true);
+    setError("");
 
-      const currentRes = await getCurrentWeather(targetCity);
-      const forecastRes = await getForecast(targetCity);
+    const currentRes = await getCurrentWeather(targetCity);
+    const forecastRes = await getForecast(targetCity);
 
-      setWeather(currentRes.data);
-      setForecast(forecastRes.data);
-    } catch (err) {
-      setError("City not found");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchWeather(city);
-  }, []);
+    setWeather(currentRes.data);
+    setForecast(forecastRes.data);
+  } catch (err) {
+    console.log("ERROR:", err.response?.data);
+    setError(err.response?.data?.message || "Error fetching data");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleSearch = () => {
     if (!search) return;
