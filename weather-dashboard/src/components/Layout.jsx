@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import lightBg from "../assets/light-bg.jpg";
-import darkBg from "../assets/dark-bg.jpg";
+import lightBg from "../assets/Screenshot 2026-02-20 205457.png";
+import darkBg from "../assets/lucie-morel-Wk63a3_NMf0-unsplash.jpg";
 
 export default function Layout({ children }) {
   const [theme, setTheme] = useState(
@@ -23,12 +23,13 @@ export default function Layout({ children }) {
 
   return (
     <div
-      className="min-h-screen bg-cover bg-center transition-all duration-500"
+      className="min-h-screen w-full bg-cover bg-center bg-no-repeat transition-all duration-500"
       style={{
         backgroundImage: `url(${theme === "dark" ? darkBg : lightBg})`,
       }}
     >
-      <div className="min-h-screen backdrop-blur-md bg-white/40 dark:bg-black/50 transition-colors duration-500">
+      {/* Overlay */}
+      <div className="min-h-screen w-full backdrop-blur-md bg-white/40 dark:bg-black/60 transition-colors duration-500">
         {children}
       </div>
     </div>
