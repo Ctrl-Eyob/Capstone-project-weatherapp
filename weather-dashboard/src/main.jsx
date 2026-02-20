@@ -4,7 +4,7 @@ import App from "./App";
 import "./index.css";
 import "./i18n";
 
-const savedTheme = localStorage.getItem("theme");
+const savedTheme = localStorage.getItem("theme") || "light";
 
 if (savedTheme === "dark") {
   document.documentElement.classList.add("dark");
