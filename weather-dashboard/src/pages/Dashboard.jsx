@@ -4,12 +4,14 @@ import Topbar from "../components/Topbar";
 import MetricCard from "../components/MetricCard";
 import ForecastChart from "../components/ForecastChart";
 import FiveDayForecast from "../components/FiveDayForecast";
-import {
-  getCurrentWeather,
-  getForecast,
-} from "../services/weatherService";
+import { getCurrentWeather, getForecast } from "../services/weatherService";
+import { useTranslation } from "react-i18next";
+import i18n from "../i18n";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
+
+  const [currentTab, setCurrentTab] = useState("dashboard");
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
@@ -33,48 +35,8 @@ export default function Dashboard() {
     }
   };
 
-  const fetchWeatherByCoords = async (lat, lon) => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const currentRes = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${import.meta.env.VITE_WEATHER_KEY}`
-      );
-      const forecastRes = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${import.meta.env.VITE_WEATHER_KEY}`
-      );
-
-      const currentData = await currentRes.json();
-      const forecastData = await forecastRes.json();
-
-      setWeather(currentData);
-      setForecast(forecastData);
-    } catch {
-      setError("Could not detect location");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 🔥 Auto-detect location on load
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          fetchWeatherByCoords(
-            position.coords.latitude,
-            position.coords.longitude
-          );
-        },
-        () => {
-          // fallback city
-          fetchWeatherByCity("Addis Ababa");
-        }
-      );
-    } else {
-      fetchWeatherByCity("Addis Ababa");
-    }
+    fetchWeatherByCity("Addis Ababa");
   }, []);
 
   const handleSearch = () => {
@@ -83,32 +45,34 @@ export default function Dashboard() {
     setSearch("");
   };
 
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("lang", lng);
+  };
+
   return (
     <div className="min-h-screen flex bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white transition-colors duration-300">
-      <Sidebar />
+      
+      <Sidebar currentTab={currentTab} setCurrentTab={setCurrentTab} />
 
-      <main className="flex-1 p-6">
-        <Topbar
-          search={search}
-          setSearch={setSearch}
-          onSearch={handleSearch}
-        />
+      <main className="flex-1 p-6 md:ml-64">
+
+        {currentTab !== "settings" && (
+          <Topbar
+            search={search}
+            setSearch={setSearch}
+            onSearch={handleSearch}
+          />
+        )}
 
         {loading && (
-          <div className="mt-6 text-slate-700 dark:text-slate-300">
-            Detecting weather...
+          <div className="mt-6 text-center text-lg">
+            {t("loading")}
           </div>
         )}
 
-        {error && (
-          <div className="mt-6 text-red-500 font-semibold">
-            {error}
-          </div>
-        )}
-
-        {weather && !loading && (
+        {currentTab === "dashboard" && weather && (
           <>
-            {/* Current Weather */}
             <div className="mt-6 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow">
               <h2 className="text-xl font-bold">
                 {weather.name}, {weather.sys.country}
@@ -121,40 +85,41 @@ export default function Dashboard() {
               <p className="capitalize mt-2 text-slate-600 dark:text-slate-300">
                 {weather.weather[0].description}
               </p>
-
-              <p className="mt-2 text-slate-600 dark:text-slate-300">
-                Feels like {Math.round(weather.main.feels_like)}°C
-              </p>
             </div>
 
-            {/* Metrics */}
             <div className="grid gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-4">
-              <MetricCard
-                title="Humidity"
-                value={weather.main.humidity}
-                unit="%"
-              />
-              <MetricCard
-                title="Wind Speed"
-                value={weather.wind.speed}
-                unit="m/s"
-              />
-              <MetricCard
-                title="Visibility"
-                value={weather.visibility / 1000}
-                unit="km"
-              />
-              <MetricCard
-                title="Pressure"
-                value={weather.main.pressure}
-                unit="hPa"
-              />
+              <MetricCard title={t("humidity")} value={weather.main.humidity} unit="%" />
+              <MetricCard title={t("wind")} value={weather.wind.speed} unit="m/s" />
+              <MetricCard title={t("visibility")} value={weather.visibility / 1000} unit="km" />
+              <MetricCard title={t("pressure")} value={weather.main.pressure} unit="hPa" />
             </div>
 
             <ForecastChart forecast={forecast} />
             <FiveDayForecast forecast={forecast} />
           </>
         )}
+
+        {currentTab === "settings" && (
+          <div className="mt-10 bg-white dark:bg-slate-800 p-8 rounded-2xl shadow">
+            <h2 className="text-2xl font-bold mb-6">
+              {t("settings")}
+            </h2>
+
+            <label className="block mb-2 font-medium">
+              {t("language")}
+            </label>
+
+            <select
+              value={i18n.language}
+              onChange={(e) => changeLanguage(e.target.value)}
+              className="p-3 rounded-lg bg-slate-200 dark:bg-slate-700"
+            >
+              <option value="en">English</option>
+              <option value="am">አማርኛ</option>
+            </select>
+          </div>
+        )}
+
       </main>
     </div>
   );

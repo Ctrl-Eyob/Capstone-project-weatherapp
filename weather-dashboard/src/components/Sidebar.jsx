@@ -1,51 +1,47 @@
-import { useState } from "react";
-import { useLanguage } from "../context/LanguageContext";
-import {
-  FiHome,
-  FiClock,
-  FiCalendar,
-  FiSettings,
-  FiMenu,
-} from "react-icons/fi";
+import { NavLink } from "react-router-dom";
+import { FaHome, FaClock, FaCalendarAlt, FaCog } from "react-icons/fa";
 
 export default function Sidebar() {
-  const { t } = useLanguage();
-  const [open, setOpen] = useState(false);
+  const linkClasses = ({ isActive }) =>
+    `flex items-center gap-3 p-3 rounded-lg transition ${
+      isActive
+        ? "bg-blue-500 text-white"
+        : "text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700"
+    }`;
 
   return (
-    <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="md:hidden fixed top-4 left-4 z-50 bg-blue-500 text-white p-2 rounded-lg"
-      >
-        <FiMenu />
-      </button>
+    <aside className="fixed md:static top-0 left-0 h-full w-64 
+    bg-white dark:bg-slate-800 
+    border-r border-slate-200 dark:border-slate-700
+    p-6 transition-colors duration-300">
 
-      <aside
-        className={`fixed md:static top-0 left-0 h-full w-64 bg-white dark:bg-slate-800 shadow transition-transform duration-300 z-40
-        ${open ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-      >
-        <div className="p-6 font-bold text-xl">
-          Weather App
-        </div>
+      <h2 className="text-xl font-bold mb-8 text-slate-900 dark:text-white">
+        Weather
+      </h2>
 
-        <nav className="flex flex-col gap-4 px-6">
-          <Tab icon={<FiHome />} label={t.dashboard} />
-          <Tab icon={<FiClock />} label={t.hourly} />
-          <Tab icon={<FiCalendar />} label={t.monthly} />
-          <Tab icon={<FiSettings />} label={t.settings} />
-        </nav>
-      </aside>
-    </>
-  );
-}
+      <nav className="space-y-4">
 
-function Tab({ icon, label }) {
-  return (
-    <div className="flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-700 transition">
-      {icon}
-      <span>{label}</span>
-    </div>
+        <NavLink to="/" className={linkClasses}>
+          <FaHome />
+          Dashboard
+        </NavLink>
+
+        <NavLink to="/hourly" className={linkClasses}>
+          <FaClock />
+          Hourly Forecast
+        </NavLink>
+
+        <NavLink to="/monthly" className={linkClasses}>
+          <FaCalendarAlt />
+          Monthly Forecast
+        </NavLink>
+
+        <NavLink to="/settings" className={linkClasses}>
+          <FaCog />
+          Settings
+        </NavLink>
+
+      </nav>
+    </aside>
   );
 }
