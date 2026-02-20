@@ -7,12 +7,25 @@ import {
 
 export default function Hourly() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const coords = await getCoordinates("Addis Ababa");
-      const res = await getHourlyForecast(coords.lat, coords.lon);
-      setData(res);
+      try {
+        setLoading(true);
+        setError("");
+
+        const coords = await getCoordinates("Addis Ababa");
+        const res = await getHourlyForecast(coords.lat, coords.lon);
+
+        setData(res);
+      } catch (err) {
+        setError("Failed to load hourly forecast.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -27,9 +40,13 @@ export default function Hourly() {
           Hourly Forecast
         </h1>
 
-        {!data && <p>Loading...</p>}
+        {loading && <p>Loading...</p>}
 
-        {data && (
+        {error && (
+          <p className="text-red-500 font-semibold">{error}</p>
+        )}
+
+        {data && !loading && (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
             {data.hourly.time.slice(0, 24).map((time, index) => (
               <div

@@ -15,19 +15,31 @@ import {
 
 export default function Monthly() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const coords = await getCoordinates("Addis Ababa");
-      const res = await getMonthlyForecast(coords.lat, coords.lon);
+      try {
+        setLoading(true);
+        setError("");
 
-      const formatted = res.daily.time.map((date, index) => ({
-        date: new Date(date).getDate(),
-        max: res.daily.temperature_2m_max[index],
-        min: res.daily.temperature_2m_min[index],
-      }));
+        const coords = await getCoordinates("Addis Ababa");
+        const res = await getMonthlyForecast(coords.lat, coords.lon);
 
-      setData(formatted);
+        const formatted = res.daily.time.map((date, index) => ({
+          date: new Date(date).getDate(),
+          max: res.daily.temperature_2m_max[index],
+          min: res.daily.temperature_2m_min[index],
+        }));
+
+        setData(formatted);
+      } catch (err) {
+        setError("Failed to load monthly forecast.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -42,9 +54,13 @@ export default function Monthly() {
           30‑Day Forecast
         </h1>
 
-        {!data && <p>Loading...</p>}
+        {loading && <p>Loading...</p>}
 
-        {data && (
+        {error && (
+          <p className="text-red-500 font-semibold">{error}</p>
+        )}
+
+        {data && !loading && (
           <div className="bg-white/60 dark:bg-slate-800/70 backdrop-blur-lg p-6 rounded-2xl shadow">
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={data}>

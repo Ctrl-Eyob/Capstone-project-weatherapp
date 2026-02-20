@@ -1,11 +1,21 @@
 import axios from "axios";
 
-// Convert city to lat/lon using OpenWeather (you already use it)
+// Get coordinates from OpenWeather
 export const getCoordinates = async (city) => {
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
+  if (!apiKey) {
+    throw new Error("API key missing. Check .env file.");
+  }
+
   const res = await axios.get(
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+    "https://api.openweathermap.org/data/2.5/weather",
+    {
+      params: {
+        q: city,
+        appid: apiKey,
+      },
+    }
   );
 
   return {
@@ -14,10 +24,10 @@ export const getCoordinates = async (city) => {
   };
 };
 
-// Hourly forecast (Open‑Meteo)
+// Hourly forecast from Open‑Meteo
 export const getHourlyForecast = async (lat, lon) => {
   const res = await axios.get(
-    `https://api.open-meteo.com/v1/forecast`,
+    "https://api.open-meteo.com/v1/forecast",
     {
       params: {
         latitude: lat,
@@ -32,10 +42,10 @@ export const getHourlyForecast = async (lat, lon) => {
   return res.data;
 };
 
-// 30 Day Forecast (Open‑Meteo Climate API)
+// 30-day forecast
 export const getMonthlyForecast = async (lat, lon) => {
   const res = await axios.get(
-    `https://api.open-meteo.com/v1/forecast`,
+    "https://api.open-meteo.com/v1/forecast",
     {
       params: {
         latitude: lat,
