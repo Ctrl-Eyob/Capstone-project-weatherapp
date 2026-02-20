@@ -10,20 +10,19 @@ import {
 } from "../services/weatherService";
 
 export default function Dashboard() {
-  const [city] = useState("Addis Ababa");
   const [search, setSearch] = useState("");
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchWeather = async (targetCity) => {
+  const fetchWeatherByCity = async (city) => {
     try {
       setLoading(true);
       setError("");
 
-      const currentRes = await getCurrentWeather(targetCity);
-      const forecastRes = await getForecast(targetCity);
+      const currentRes = await getCurrentWeather(city);
+      const forecastRes = await getForecast(city);
 
       setWeather(currentRes.data);
       setForecast(forecastRes.data);
@@ -34,13 +33,53 @@ export default function Dashboard() {
     }
   };
 
+  const fetchWeatherByCoords = async (lat, lon) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const currentRes = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${import.meta.env.VITE_WEATHER_KEY}`
+      );
+      const forecastRes = await fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${import.meta.env.VITE_WEATHER_KEY}`
+      );
+
+      const currentData = await currentRes.json();
+      const forecastData = await forecastRes.json();
+
+      setWeather(currentData);
+      setForecast(forecastData);
+    } catch {
+      setError("Could not detect location");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔥 Auto-detect location on load
   useEffect(() => {
-    fetchWeather(city);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          fetchWeatherByCoords(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+        },
+        () => {
+          // fallback city
+          fetchWeatherByCity("Addis Ababa");
+        }
+      );
+    } else {
+      fetchWeatherByCity("Addis Ababa");
+    }
   }, []);
 
   const handleSearch = () => {
     if (!search) return;
-    fetchWeather(search);
+    fetchWeatherByCity(search);
     setSearch("");
   };
 
@@ -57,7 +96,7 @@ export default function Dashboard() {
 
         {loading && (
           <div className="mt-6 text-slate-700 dark:text-slate-300">
-            Loading...
+            Detecting weather...
           </div>
         )}
 
@@ -72,7 +111,7 @@ export default function Dashboard() {
             {/* Current Weather */}
             <div className="mt-6 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow">
               <h2 className="text-xl font-bold">
-                {weather.name}
+                {weather.name}, {weather.sys.country}
               </h2>
 
               <div className="text-5xl font-bold mt-2">
@@ -112,10 +151,7 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* Chart */}
             <ForecastChart forecast={forecast} />
-
-            {/* 5 Day Forecast */}
             <FiveDayForecast forecast={forecast} />
           </>
         )}
