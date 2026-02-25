@@ -129,7 +129,7 @@ src/
 ## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/your-username/weather-dashboard.git
+git clone https://github.com/your-username/Capstone-project-weatherapp.git
 cd weather-dashboard
 ```
 
@@ -293,8 +293,8 @@ xl:
 **Eyob Abera**  
 Frontend Engineer | UI Implementation Specialist  
 
-GitHub: https://github.com/your-username  
-LinkedIn: https://linkedin.com/in/your-profile  
+GitHub: https://github.com/Ctrl-Eyob  
+LinkedIn: https://www.linkedin.com/in/eyobabera/
 
 ---
 
