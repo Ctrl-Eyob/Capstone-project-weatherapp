@@ -1,16 +1,173 @@
-# React + Vite
+🌦️ Weather Dashboard Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Weather Dashboard built with React (Vite) and Tailwind CSS, powered by the OpenWeatherMap API.
 
-Currently, two official plugins are available:
+This application allows users to search for any city and view real-time weather data including current conditions, detailed metrics, hourly forecasts, and theme switching between light and dark modes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🚀 Live Demo
 
-## React Compiler
+Add your Vercel deployment link here
+************https://your-app-name.vercel.app
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+📌 Features
 
-## Expanding the ESLint configuration
+🔍 Search weather by city
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🌡️ Current weather conditions
+
+📊 Weather metrics (humidity, wind, visibility, etc.)
+
+📈 Hourly forecast chart (Recharts)
+
+📅 Monthly preview section
+
+🌙 Dark / Light mode toggle
+
+📱 Fully responsive (Mobile, Tablet, Desktop)
+
+⚡ Fast build with Vite + SWC
+
+🔐 Secure API key via environment variables
+
+🛠 Tech Stack
+
+Frontend: React (Vite)
+
+Styling: Tailwind CSS v3
+
+HTTP Client: Axios
+
+Charts: Recharts
+
+Icons: React Icons
+
+API: OpenWeatherMap
+
+Deployment: Vercel
+
+📂 Project Structure
+src/
+│
+├── components/        # Reusable UI components
+├── pages/             # Page-level components
+├── context/           # Theme context (dark/light mode)
+├── services/          # API integration layer
+├── hooks/             # Custom React hooks
+├── utils/             # Helper functions
+│
+├── App.jsx
+├── main.jsx
+└── index.css
+⚙️ Installation & Setup
+1️⃣ Clone the repository
+git clone https://github.com/your-username/weather-dashboard.git
+cd weather-dashboard
+2️⃣ Install dependencies
+npm install
+3️⃣ Create environment file
+
+Create a .env file in the root directory:
+
+VITE_WEATHER_KEY=your_openweathermap_api_key
+
+Get your free API key from:
+https://openweathermap.org/api
+
+4️⃣ Run development server
+npm run dev
+
+App will run at:
+
+http://localhost:5173
+🌐 API Integration
+
+This project uses:
+
+Current Weather API
+
+5-Day / 3-Hour Forecast API
+
+All API logic is abstracted inside:
+
+src/services/weatherService.js
+
+Environment variables are accessed using:
+
+import.meta.env.VITE_WEATHER_KEY
+🎨 Theming System
+
+Dark/Light mode is implemented using:
+
+Tailwind darkMode: "class"
+
+React Context API
+
+LocalStorage persistence
+
+Theme state automatically persists across sessions.
+
+📱 Responsiveness
+
+The layout adapts to:
+
+Mobile → Single column
+
+Tablet → 2 columns
+
+Desktop → Full dashboard layout with sidebar
+
+Built using Tailwind responsive utilities:
+
+md:
+lg:
+xl:
+🚀 Deployment (Vercel)
+
+Push project to GitHub
+
+Go to https://vercel.com
+
+Import repository
+
+Add environment variable:
+
+VITE_WEATHER_KEY
+
+Deploy
+
+📈 Future Improvements
+
+🌍 Geolocation support
+
+🗺️ Weather maps integration
+
+📊 Advanced data visualization
+
+📦 PWA support (offline mode)
+
+🔔 Weather alerts notifications
+
+🌐 Multi-language support
+
+🧠 Best Practices Used
+
+Reusable component architecture
+
+Service-layer API abstraction
+
+Environment variable security
+
+Clean folder structure
+
+Responsive-first design
+
+Accessibility-friendly UI
+
+Production-ready configuration
+
+👨‍💻 Author
+
+Eyob Abera
+Frontend Developer | UI/UX designer
+
+GitHub: https://github.com/Ctrl-Eyob
