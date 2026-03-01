@@ -3,7 +3,7 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Hourly from "./pages/Hourly";
 import Monthly from "./pages/Monthly";
-import Settings from "./pages/Settings";
+import Settings from "./pages/settings";
 
 export default function App() {
   return (
@@ -17,5 +17,6 @@ export default function App() {
         </Routes>
       </Layout>
     </BrowserRouter>
+    
   );
 }
