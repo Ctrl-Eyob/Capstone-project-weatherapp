@@ -1,8 +1,8 @@
-# 🌦️ Weather Dashboard — Modern React Weather Application
+# 🌦️ Weather Dashboard     Modern React Weather Application
 
 A beautifully designed, fully responsive Weather Dashboard built with **React + Vite + Tailwind CSS**, powered by the **OpenWeatherMap API**.
 
-This project demonstrates clean architecture, reusable component design, API integration, data visualization, and modern UI/UX practices — ready for production deployment.
+This project demonstrates clean architecture, reusable component design, API integration, data visualization, and modern UI/UX practices ready for production deployment.
 
 ---
 
