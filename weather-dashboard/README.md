@@ -9,7 +9,7 @@ This project demonstrates clean architecture, reusable component design, API int
 ## 🚀 Live Demo
 
 🔗 **Deployed on Vercel:**  
-https://your-app-name.vercel.app  
+https://capstone-project-weatherapp.vercel.app/  
 
 ---
 
@@ -130,6 +130,7 @@ src/
 
 ```bash
 git clone https://github.com/your-username/Capstone-project-weatherapp.git
+cd Capstone-project-weatherapp
 cd weather-dashboard
 ```
 
