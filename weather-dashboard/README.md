@@ -15,8 +15,6 @@ https://capstone-project-weatherapp.vercel.app/
 
 ## ✨ Preview
 
-> Add screenshots here after deployment
-
 - 🌤️ Current Weather Overview  
 - 📊 Detailed Weather Metrics  
 - 📈 Hourly Forecast Visualization  
