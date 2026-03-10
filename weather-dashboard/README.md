@@ -295,7 +295,7 @@ xl:
 # 👨‍💻 Author
 
 **Eyob Abera**  
-Frontend Engineer | UI Implementation Specialist  
+Frontend developer | UI/UX designer
 
 GitHub: https://github.com/Ctrl-Eyob  
 LinkedIn: https://www.linkedin.com/in/eyobabera/
