@@ -14,6 +14,7 @@ https://capstone-project-weatherapp.vercel.app/
 ---
 
 ## ✨ Preview
+<img width="1366" height="691" alt="Screenshot 2026-03-10 141951" src="https://github.com/user-attachments/assets/e3718c9c-39c8-4a76-8dfb-0a37f0226942" />
 
 - 🌤️ Current Weather Overview  
 - 📊 Detailed Weather Metrics  
